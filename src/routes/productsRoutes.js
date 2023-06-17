@@ -1,16 +1,14 @@
-
 const express = require('express');
-const ProductManager = require('./productManager');
+const ProductManager = require('../productManager');
+
 const router = express.Router();
 
 const productManager = new ProductManager();
 
-
 router.get('/', (req, res) => {
   const products = productManager.getAllProducts();
-  res.json(products);
+  res.render('home', { products }); 
 });
-
 
 router.get('/:id', (req, res) => {
   const { id } = req.params;
@@ -21,7 +19,6 @@ router.get('/:id', (req, res) => {
     res.status(404).json({ error: 'Product not found' });
   }
 });
-
 
 router.post('/', (req, res) => {
   const { name, price } = req.body;
@@ -42,7 +39,6 @@ router.put('/:id', (req, res) => {
     res.status(404).json({ error: 'Product not found' });
   }
 });
-
 
 router.delete('/:id', (req, res) => {
   const { id } = req.params;

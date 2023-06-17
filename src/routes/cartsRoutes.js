@@ -14,7 +14,7 @@ router.get('/:cid', (req, res) => {
   const cartId = req.params.cid;
   try {
     const cart = cartManager.getCartById(cartId);
-    res.json(cart);
+    res.render('realTimeProducts', { products: cart.products }); 
   } catch (error) {
     res.status(404).json({ error: 'Carrito no encontrado' });
   }

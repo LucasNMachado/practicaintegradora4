@@ -1,7 +1,8 @@
 const express = require('express');
 const productsRoutes = require('./routes/productsRoutes');
 const cartsRoutes = require('./routes/cartsRoutes');
-const exphbs = require('express-handlebars'); 
+const exphbs = require('express-handlebars').create();
+ 
 const http = require('http');
 const socketIO = require('socket.io');
 
@@ -9,7 +10,8 @@ const app = express();
 const port = 8080;
 
 
-app.engine('handlebars', exphbs());
+app.engine('handlebars', exphbs.engine);
+
 app.set('view engine', 'handlebars');
 
 app.use(express.json());
