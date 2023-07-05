@@ -1,40 +1,94 @@
-
+const Product = require('../dao/models/productModel');
 
 class ProductManager {
   constructor() {
-    this.products = [];
+    this.productModel = Product;
   }
 
-  getAllProducts() {
-    return this.products;
-  }
-
-  getProductById(id) {
-    return this.products.find(product => product.id === id);
-  }
-
-  addProduct(product) {
-    this.products.push(product);
-  }
-
-  updateProduct(id, updatedProduct) {
-    const index = this.products.findIndex(product => product.id === id);
-    if (index !== -1) {
-      this.products[index] = { ...updatedProduct, id };
-      return true;
+  async getProducts() {
+    try {
+      const products = await this.productModel.find();
+      return products;
+    } catch (error) {
+      console.error("Error al obtener los productos:", error);
+      return [];
     }
-    return false;
   }
 
-  deleteProduct(id) {
-    const index = this.products.findIndex(product => product.id === id);
-    if (index !== -1) {
-      this.products.splice(index, 1);
-      return true;
+  async getProductById(id) {
+    try {
+      const product = await this.productModel.findById(id);
+      if (product) {
+        return product;
+      } else {
+        console.error("Producto no encontrado");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al obtener el producto:", error);
+      return null;
     }
-    return false;
+  }
+
+  async addProduct({ title, description, code, price, status = true, stock, category, thumbnails = [] }) {
+    if (!title || !description || !code || !price || !stock || !category) {
+      console.error("Faltan campos obligatorios");
+      return null;
+    }
+
+    thumbnails.push("https://picsum.photos/536/354?image=");
+    thumbnails.push("https://picsum.photos/536/354?image=");
+    thumbnails.push("https://picsum.photos/536/354?image=");
+
+    try {
+      const newProduct = new this.productModel({
+        title,
+        description,
+        code,
+        price,
+        status,
+        stock,
+        category,
+        thumbnails
+      });
+
+      const savedProduct = await newProduct.save();
+      return savedProduct;
+    } catch (error) {
+      console.error("Error al agregar el producto:", error);
+      return null;
+    }
+  }
+
+  async updateProduct(id, object) {
+    try {
+      const updatedProduct = await this.productModel.findByIdAndUpdate(id, object, { new: true });
+      if (updatedProduct) {
+        return updatedProduct;
+      } else {
+        console.error("Producto no encontrado");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al actualizar el producto:", error);
+      return null;
+    }
+  }
+
+  async deleteProduct(id) {
+    try {
+      const deletedProduct = await this.productModel.findByIdAndDelete(id);
+      if (deletedProduct) {
+        return deletedProduct;
+      } else {
+        console.error("Producto no encontrado");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error al eliminar el producto:", error);
+      return null;
+    }
   }
 }
 
 module.exports = ProductManager;
- 
