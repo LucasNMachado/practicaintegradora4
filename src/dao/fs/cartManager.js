@@ -1,10 +1,10 @@
-const Cart = require('./models/cartModel');
-const Product = require('./models/productModel');
+const Cart = require("../mongo/models/cartModel");
+
 
 class CartManager {
   async getAllCarts() {
     try {
-      return await Cart.find().populate('products.productId');
+      return await Cart.find().populate("products.productId");
     } catch (error) {
       console.error({ error });
       throw error;
@@ -13,7 +13,7 @@ class CartManager {
 
   async getCart(id) {
     try {
-      return await Cart.findById(id).populate('products.productId');
+      return await Cart.findById(id).populate("products.productId");
     } catch (error) {
       console.error({ error });
       throw error;
@@ -23,7 +23,7 @@ class CartManager {
   async addCart() {
     try {
       const newCart = new Cart({
-        products: []
+        products: [],
       });
       return await newCart.save();
     } catch (error) {
@@ -36,7 +36,7 @@ class CartManager {
     try {
       const cart = await Cart.findById(cartId);
       if (!cart) {
-        throw new Error('Cart not found');
+        throw new Error("Cart not found");
       }
       const updatedProducts = cart.products.filter(
         (product) => product.productId.toString() !== productId
@@ -54,7 +54,7 @@ class CartManager {
     try {
       const cart = await Cart.findById(cartId);
       if (!cart) {
-        throw new Error('Cart not found');
+        throw new Error("Cart not found");
       }
       cart.products = products;
       await cart.save();
@@ -69,13 +69,13 @@ class CartManager {
     try {
       const cart = await Cart.findById(cartId);
       if (!cart) {
-        throw new Error('Cart not found');
+        throw new Error("Cart not found");
       }
       const productIndex = cart.products.findIndex(
         (product) => product.productId.toString() === productId
       );
       if (productIndex === -1) {
-        throw new Error('Product not found in cart');
+        throw new Error("Product not found in cart");
       }
       cart.products[productIndex].quantity = quantity;
       await cart.save();

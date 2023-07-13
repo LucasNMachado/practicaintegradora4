@@ -1,4 +1,4 @@
-const Product = require('../dao/models/productModel');
+const Product = require("../mongo/models/productModel");
 
 class ProductManager {
   constructor() {
@@ -30,7 +30,16 @@ class ProductManager {
     }
   }
 
-  async addProduct({ title, description, code, price, status = true, stock, category, thumbnails = [] }) {
+  async addProduct({
+    title,
+    description,
+    code,
+    price,
+    status = true,
+    stock,
+    category,
+    thumbnails = [],
+  }) {
     if (!title || !description || !code || !price || !stock || !category) {
       console.error("Faltan campos obligatorios");
       return null;
@@ -49,7 +58,7 @@ class ProductManager {
         status,
         stock,
         category,
-        thumbnails
+        thumbnails,
       });
 
       const savedProduct = await newProduct.save();
@@ -62,7 +71,11 @@ class ProductManager {
 
   async updateProduct(id, object) {
     try {
-      const updatedProduct = await this.productModel.findByIdAndUpdate(id, object, { new: true });
+      const updatedProduct = await this.productModel.findByIdAndUpdate(
+        id,
+        object,
+        { new: true }
+      );
       if (updatedProduct) {
         return updatedProduct;
       } else {
