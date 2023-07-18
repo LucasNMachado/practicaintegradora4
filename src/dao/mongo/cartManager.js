@@ -1,5 +1,4 @@
-const Cart = require("../mongo/models/cartModel");
-
+const Cart = require("./models/cartModel");
 
 class CartManager {
   async getAllCarts() {

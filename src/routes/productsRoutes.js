@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const ProductManager = require("../dao/fs/productManager");
+const ProductManager = require("../dao/mongo/productManager");
 const router = Router();
 
 /////////////////////////////GET MODIFICADO
@@ -15,7 +15,7 @@ router.get("/", async (req, res) => {
     if (query) {
       filter.$or = [
         { category: { $regex: query, $options: "i" } },
-        { status: { $regex: query, $options: "i" } }
+        { status: { $regex: query, $options: "i" } },
       ];
     }
 
@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
     const options = {
       page: page,
       limit: limit,
-      sort: sort
+      sort: sort,
     };
 
     const result = await ProductManager.getProducts(filter, options);
@@ -44,8 +44,12 @@ router.get("/", async (req, res) => {
       page: page,
       hasPrevPage: hasPrevPage,
       hasNextPage: hasNextPage,
-      prevLink: hasPrevPage ? `/api/products?page=${prevPage}&limit=${limit}` : null,
-      nextLink: hasNextPage ? `/api/products?page=${nextPage}&limit=${limit}` : null
+      prevLink: hasPrevPage
+        ? `/api/products?page=${prevPage}&limit=${limit}`
+        : null,
+      nextLink: hasNextPage
+        ? `/api/products?page=${nextPage}&limit=${limit}`
+        : null,
     };
 
     res.json(formattedResult);

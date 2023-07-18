@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const ProductManager = require("../dao/fs/productManager.js");
+const ProductManager = require("../dao/mongo/productManager.js");
 
 const router = Router();
 
@@ -16,24 +16,21 @@ router.get("/realtimeproducts", (req, res) => {
     style: "realTimeProducts.css",
   });
 });
-//////////////////////////////////
-/////////////////////////////////
+
 
 router.get("/products", async (req, res) => {
-  const {page} = req.query;
+  const { page } = req.query;
   const products = await productModel.paginate(
     {},
     {
       limit: 4,
       lean: true,
-      page: page ?? 1
+      page: page ?? 1,
     }
-  )
-  res.render("products",{products})
+  );
+  res.render("products", { products });
+});
 
-  })
 
-/////////////////////////////////
-////////////////////////////////
 
 module.exports = router;
