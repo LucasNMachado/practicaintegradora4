@@ -12,6 +12,8 @@ const MessageManager = require("../src/dao/mongo/messageManager");
 import MongoStore from 'connect-mongo';
 import viewsRoutes from './routes/viewsRoutes'
 import sessionsRoutes from './routes/sessionsRoutes'
+import passport from 'passport';
+import initializePassport from './config/passport.config';
 
 const app = express();
 const port = 8080;
@@ -88,8 +90,10 @@ mongoose
  
 }));
 
-
-app.get('/session', (req, res) => {
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+app.get('/api/session', (req, res) => {
     if (!req.session.count) {
         req.session.count = 1;
         res.send('Bienvenido a la pagina');
