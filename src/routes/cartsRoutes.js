@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const CartManager = require("../dao/mongo/cartManager");
+import { Router } from "express";
+import CartManager from "../dao/mongo/cartManager.js";
 
 const router = Router();
 
@@ -120,4 +120,4 @@ router.delete("/:cid/products/:pid", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

@@ -1,4 +1,4 @@
-const Cart = require("./models/cartModel");
+import Cart from "./models/cartModel.js";
 
 class CartManager {
   async getAllCarts() {
@@ -95,4 +95,4 @@ class CartManager {
   }
 }
 
-module.exports = CartManager;
+export default CartManager;

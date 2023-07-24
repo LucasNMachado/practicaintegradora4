@@ -1,4 +1,4 @@
-const Message = require('./dao/models/messageModel');
+import Message from './models/messageModel.js';
 
 class MessageManager {
   async getAllMessages() {
@@ -21,4 +21,4 @@ class MessageManager {
   }
 }
 
-module.exports = MessageManager;
+export default MessageManager;

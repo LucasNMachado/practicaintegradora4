@@ -1,8 +1,7 @@
-const { Router } = require("express");
-const ProductManager = require("../dao/mongo/productManager");
-const router = Router();
+import { Router } from "express";
+import ProductManager from "../dao/mongo/productManager.js";
 
-/////////////////////////////GET MODIFICADO
+const router = Router();
 
 router.get("/", async (req, res) => {
   try {
@@ -58,8 +57,6 @@ router.get("/", async (req, res) => {
     res.status(500).json({ status: "error", error: "Internal Server Error" });
   }
 });
-
-///////////////////////////////////
 
 router.get("/:pid", async (req, res) => {
   try {
@@ -148,4 +145,4 @@ router.delete("/:pid", async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;

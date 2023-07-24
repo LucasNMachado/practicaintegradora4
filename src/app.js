@@ -1,19 +1,26 @@
-const express = require("express");
-const productsRouter = require("./routes/productsRoutes");
-const cartsRouter = require("./routes/cartsRoutes");
-const exphbs = require("express-handlebars");
-const path = require("path");
-const mongoose = require("mongoose");
-const http = require("http");
-const socketIO = require("socket.io");
-const homeRouter = require("./routes/homeRoutes");
-const ProductManager = require("../src/dao/mongo/productManager");
-const MessageManager = require("../src/dao/mongo/messageManager");
+import express from 'express';
 import MongoStore from 'connect-mongo';
-import viewsRoutes from './routes/viewsRoutes'
-import sessionsRoutes from './routes/sessionsRoutes'
+import viewsRoutes from './routes/viewsRoutes.js';
+import sessionsRoutes from './routes/sessionsRoutes.js';
 import passport from 'passport';
-import initializePassport from './config/passport.config';
+import initializePassport from './config/passport.config.js';
+import path from 'path';
+import homeRouter from './routes/homeRoutes.js';
+import ProductManager from '../src/dao/mongo/productManager.js';
+import MessageManager from '../src/dao/mongo/messageManager.js';
+import productsRouter from './routes/productsRoutes.js';
+import cartsRouter from './routes/cartsRoutes.js';
+import exphbs from "express-handlebars";
+import mongoose from "mongoose";
+import http from "http";
+import session from 'express-session';
+import __dirname from './utils.js';
+import { Server } from 'socket.io';
+
+
+
+
+
 
 const app = express();
 const port = 8080;
@@ -31,7 +38,8 @@ app.use("/", viewsRoutes);
 app.use("/api/sessions", sessionsRoutes);
 
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = new Server(server);
+
 
 io.on("connection", async (socket) => {
   console.log("New connection: ", socket.id);
@@ -58,7 +66,7 @@ io.on("connection", async (socket) => {
   });
 });
 
-const MONGO = "mongodb://localhost/chatdb";
+const MONGO = "mongodb+srv://machadolucasn:machadolucasn@cluster0.imos5vy.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(MONGO, {
     useNewUrlParser: true,

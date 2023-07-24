@@ -1,5 +1,5 @@
 import passport from 'passport';
-import userService from '../dao/mongo/models/usersModel';
+import userService from '../dao/mongo/models/usersModel.js';
 import GitHubStrategy from 'passport-github2';
 
 const initializePassport = () => {
