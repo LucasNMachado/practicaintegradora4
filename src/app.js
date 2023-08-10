@@ -16,14 +16,10 @@ import http from "http";
 import session from 'express-session';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
-
-
-
-
-
+import config from './config/config.js';
 
 const app = express();
-const port = 8080;
+const port = config.port || 8080;
 
 app.engine("handlebars", exphbs.engine);
 app.set("view engine", "handlebars");
@@ -65,10 +61,8 @@ io.on("connection", async (socket) => {
     console.log("Client disconnected");
   });
 });
-
-const MONGO = "mongodb+srv://machadolucasn:machadolucasn@cluster0.imos5vy.mongodb.net/?retryWrites=true&w=majority";
 mongoose
-  .connect(MONGO, {
+  .connect(config.mongoDbUrl, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -91,7 +85,7 @@ mongoose
     resave: true,
     saveUninitialized: true,
     store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://machadolucasn:machadolucasn@cluster0.imos5vy.mongodb.net/sessions_mongo?retryWrites=true&w=majority',
+    mongoUrl: config.sessionDbUrl,
     ttl:100, 
     mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}, 
     })
