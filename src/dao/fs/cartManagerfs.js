@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-class CartManager {
+class CartManagerFs {
   constructor(path) {
     this.path = path;
   }
@@ -83,4 +83,4 @@ class CartManager {
 }
 
 const rutaCart = path.join(__dirname, '../../db/carrito.json');
-export default new CartManager(rutaCart);
+export default new CartManagerFs(rutaCart);

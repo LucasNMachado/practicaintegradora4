@@ -17,9 +17,11 @@ import session from 'express-session';
 import __dirname from './utils.js';
 import { Server } from 'socket.io';
 import config from './config/config.js';
+import DaoFactory from './dao/factory.js';
 
 const app = express();
 const port = config.port || 8080;
+const daoInstances = DaoFactory.getDao();
 
 app.engine("handlebars", exphbs.engine);
 app.set("view engine", "handlebars");
@@ -27,8 +29,8 @@ app.set("views", path.join(__dirname, "src", "views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/public", express.static(path.join(__dirname, "../public")));
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/api/products", productsRouter(daoInstances.productManager));
+app.use("/api/carts", cartsRouter(daoInstances.cartManager));
 app.use("/", homeRouter);
 app.use("/", viewsRoutes);
 app.use("/api/sessions", sessionsRoutes);

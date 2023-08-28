@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-class ProductManager {
+class ProductManagerFs {
   constructor(path) {
     this.path = path;
   }
@@ -129,4 +129,4 @@ class ProductManager {
 }
 
 const rutaProducts = path.join(__dirname, '../../db/productos.json');
-export default new ProductManager(rutaProducts);
+export default new ProductManagerFs(rutaProducts);
