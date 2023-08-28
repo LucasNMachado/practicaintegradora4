@@ -2,6 +2,7 @@ import { Router } from 'express';
 import userModel from '../dao/mongo/models/usersModel.js';
 import { createHash } from '../utils.js';
 import passport from 'passport';
+import UsersDTO from '../dto/users.dto.js';
 
 const router = Router();
 
@@ -49,21 +50,16 @@ router.put('/restartPassword', async (req, res) => {
     res.send({ status: "success", message: "Contraseña restaurada" });
 });
 
+///////////ruta modificada
 
 router.get('/current', (req, res) => {
-   
     if (req.isAuthenticated()) {
-      
-        const user = {
-            name: `${req.user.first_name} ${req.user.last_name}`,
-            email: req.user.email,
-            age: req.user.age
-        };
-
-        res.send({ status: "success", payload: user });
+        const userDTO = new UsersDTO(req.user); 
+        res.send({ status: "success", payload: userDTO }); 
     } else {
         res.status(401).send({ status: "error", error: "User not authenticated" });
     }
 });
+
 
 export default router; 
