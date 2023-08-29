@@ -3,6 +3,7 @@ import userModel from '../dao/mongo/models/usersModel.js';
 import { createHash } from '../utils.js';
 import passport from 'passport';
 import UsersDTO from '../dto/users.dto.js';
+import {isAdmin, isUser} from '../middlewares/role.js'
 
 const router = Router();
 
@@ -50,8 +51,7 @@ router.put('/restartPassword', async (req, res) => {
     res.send({ status: "success", message: "Contraseña restaurada" });
 });
 
-///////////ruta modificada
-
+// dto
 router.get('/current', (req, res) => {
     if (req.isAuthenticated()) {
         const userDTO = new UsersDTO(req.user); 
@@ -59,6 +59,30 @@ router.get('/current', (req, res) => {
     } else {
         res.status(401).send({ status: "error", error: "User not authenticated" });
     }
+});
+
+// crear producto (admin)
+router.post('/products', isAdmin, async (req, res) => {
+    res.send({ status: "success", message: "Product created" });
+});
+
+// actualizar producto (admin)
+router.put('/products/:id', isAdmin, async (req, res) => {
+    res.send({ status: "success", message: "Product updated" });
+});
+// eliminar producto (admin)
+router.delete('/products/:id', isAdmin, async (req, res) => {
+    res.send({ status: "success", message: "Product deleted" });
+});
+
+// enviar mensaje (usuario)
+router.post('/chat', isUser, async (req, res) => {
+    res.send({ status: "success", message: "Message sent" });
+});
+
+// agregar al carrito (usuario)
+router.post('/cart', isUser, async (req, res) => {
+    res.send({ status: "success", message: "Product added to cart" });
 });
 
 
