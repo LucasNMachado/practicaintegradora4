@@ -59,6 +59,8 @@ export const purchaseCart = async (req, res) => {
         } else {
             res.json({
                 status: "failed",
+
+                
                 error: "No products available for purchase"
             });
         }
@@ -72,4 +74,3 @@ function generateUniqueCode() {
     return Math.random().toString(36).substring(2, 10).toUpperCase();
 }
 
-export { purchaseCart };

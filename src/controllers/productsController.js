@@ -1,4 +1,4 @@
-import ProductManager from "../dao/mongo/productManager"; 
+import ProductManager from "../dao/mongo/productManager.js"; 
 
 export const productsGet = async (req, res) => {
     try {

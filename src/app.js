@@ -1,3 +1,4 @@
+import { addLogger } from './utils/logger.js';
 import express from 'express';
 import MongoStore from 'connect-mongo';
 import viewsRoutes from './routes/viewsRoutes.js';
@@ -34,9 +35,21 @@ app.use("/api/carts", cartsRouter(daoInstances.cartManager));
 app.use("/", homeRouter);
 app.use("/", viewsRoutes);
 app.use("/api/sessions", sessionsRoutes);
-
+app.use(addLogger)
 const server = http.createServer(app);
 const io = new Server(server);
+
+//logger
+app.get('/loggerTest', (req, res) => {
+  
+  req.logger.debug('Esto es un mensaje de depuración');
+  req.logger.info('Esto es un mensaje de información');
+  req.logger.warn('Esto es un mensaje de advertencia');
+  req.logger.error('Esto es un mensaje de error');
+  req.logger.fatal('Esto es un mensaje fatal');
+  
+  res.send('Logs generados con éxito en /loggerTest');
+});
 
 
 io.on("connection", async (socket) => {

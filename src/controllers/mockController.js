@@ -1,4 +1,4 @@
-import faker from '@faker-js/faker';
+// import faker from "faker";
 import Product from '../dao/mongo/models/productModel.js'; 
 
 
